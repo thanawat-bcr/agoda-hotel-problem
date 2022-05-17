@@ -20,7 +20,7 @@ public class Main {
       
       if (cmds[0].equals("book")) {
         if (Integer.parseInt(cmds[2]) > Integer.parseInt(cmds[3])) {
-          System.out.println("Start date should be less than End date");
+          System.out.println("ERR: Start date should be less than End date");
           return;
         }
         for(Room r: rooms) {
@@ -32,17 +32,25 @@ public class Main {
       }
       
       if (cmds[0].equals("cancel")) {
+        boolean isDeleted = false;
         for (Room r: rooms) {
           Iterator<Booking> itr = r.bookings.iterator();
           while (itr.hasNext()) {
             Booking b = itr.next();
-            if (b.id.equals(cmds[1])) itr.remove();
+            if (b.id.equals(cmds[1])){
+              itr.remove();
+              isDeleted = true;
+            }
           }
         }
-        
+        if (!isDeleted) {
+          System.out.println("ERR: There is booking ID: " + cmds[1]);
+          return;
+        }
       }
     }
-
+    
+    // OUTPUT SECTION
     for(Room r: rooms) {
       System.out.println("Room: " + r.name);
       for(Booking b: r.bookings) {
